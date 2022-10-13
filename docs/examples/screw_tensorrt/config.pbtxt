@@ -1,0 +1,19 @@
+name: "screw_tensorrt"
+platform: "tensorrt_plan"
+max_batch_size : 4
+input [
+  {
+    name: "input"
+    data_type: TYPE_FP16
+    format: FORMAT_NCHW
+    dims: [ 3, 224, 224 ]
+  }
+]
+output [
+  {
+    name: "output"
+    data_type: TYPE_FP16 
+    dims: [ 2 ]
+    label_filename: "label.txt"
+  }
+]

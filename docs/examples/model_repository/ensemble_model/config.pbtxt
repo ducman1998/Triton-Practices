@@ -1,0 +1,48 @@
+name: "ensemble_model"
+platform: "ensemble" 
+max_batch_size: 4
+input [
+    {
+        name: "INPUT"
+        data_type: TYPE_FP16
+        format: FORMAT_NCHW
+        dims: [3, 224, 224]
+    }
+]
+output [
+    {
+        name: "OUTPUT"
+        data_type: TYPE_FP32
+        dims: [2]
+        label_filename: "label.txt" 
+    }
+]
+
+ensemble_scheduling {
+  step [
+    {
+      model_name: "screw_onnx"
+      model_version: -1
+      input_map {
+        key: "input"
+        value: "INPUT"
+      }
+      output_map {
+        key: "output"
+        value: "classify_ans_fp16"
+      }
+    },
+    {
+      model_name: "post_process_python"
+      model_version: -1
+      input_map {
+        key: "input_classifier"
+        value: "classify_ans_fp16"
+      }
+      output_map {
+        key: "output_classifier"
+        value: "OUTPUT"
+      }
+    }
+  ]
+}

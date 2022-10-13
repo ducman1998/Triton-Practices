@@ -1,0 +1,20 @@
+name: "post_process_python"
+backend: "python"
+max_batch_size: 4
+input [
+  {
+    name: "input_classifier"
+    data_type: TYPE_FP16 
+    dims: [ 2 ]
+  }
+]
+output [
+  {
+    name: "output_classifier"
+    data_type: TYPE_FP32
+    dims: [ 2 ]
+  }
+]
+
+dynamic_batching { }
+instance_group [{ kind: KIND_CPU }]
